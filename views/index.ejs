@@ -8,9 +8,13 @@
         <section>
             <% if(task.length){ %>
                 <% task.forEach((task)=>{%>
-                    <h2><%= task.name %></h2>
-                    <p><%= task.task  %></p>
-                    <p><%= task.title  %></p>
+                    <a href="/api/v1/route/<%- task._id %>">
+                        <h2><%= task.name %></h2>
+                        <p><%= task.task  %></p>
+                        <p><%= task.title  %></p>
+                        <p><%= task._id  %></p>
+                    </a>
+                   
                     <% }) %>
              <% }else{%>
                     <h4>No Task to display</h4>
