@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express()
-const port = process.env.PORT || 5050;
+const port = process.env.PORT || 7075;
 const morgan = require('morgan')
 const mongoose = require('mongoose');
 const connect = require('./db/mongoDB')
-require('dotenv/config')
 const Tasks =  require('./model/taskModel')
+const taskRouter = require('./router/taskRouter')
+require("dotenv/config")
 
 
 
@@ -37,14 +38,14 @@ app.get('/post-tasks',async(req,res)=>{
    }
 })
 // .find() method is a mongoose method for getting all our data from our database
-app.get('/get-posts', async(req,res)=>{
-    try{
-        const getTasks = await Tasks.find();
-        res.status(200).send(getTasks)
-    }catch(error){
-        console.log(error);
-    }
-})
+// app.get('/get-posts', async(req,res)=>{
+//     try{
+//         const getTasks = await Tasks.find();
+//         res.status(200).send(getTasks)
+//     }catch(error){
+//         console.log(error);
+//     }
+// })
 
 // .findbyId() method is a mongoose method for finding a specific  data from our database
 app.get('/single-task',async(req,res)=>{
@@ -70,27 +71,7 @@ app.use(express.static('public'))
 //     {name:'jannat',title:'life in school',task:'always doing assignment'},
 // ]
 // // api
-app.post('/api/v1/create',async(req,res)=>{
-    // console.log(req.body);
-    const newTask = new Tasks(req.body)
-    try{
-        await newTask.save();
-        res.status(201).redirect('/')
-    }catch(error){
-        console.log(error);
-    }
-});
-app.get('/api/v1/route/:id',async(req,res)=>{
-    const id = req.params.id
-    console.log(id);
-    try{
-      const result = await Tasks.findById(id)
-       res.status(200).render('Single',{title:'Single || Page',task:result})
-    }catch(error){
-        console.log(error);
-    }
-})
- 
+ app.use('/api/v1',taskRouter)
 // page route
 app .get ('/',async(req,res)=>{
     try{
@@ -105,6 +86,7 @@ app .get ('/about',(req,res)=>{
     res.render('about',{title:'About || Page'})
 })
 app .get ('/tasks',(req,res)=>{
+    
     res.render('tasks',{title:'Task || Page'})
 })
 
