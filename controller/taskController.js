@@ -20,11 +20,23 @@ const delete_task =async(req,res)=>{
         console.log(error);
     }
 }
+// edit page
 const edit_task =async(req,res)=>{
     const id = req.params.id;
     try{
-        await Tasks.findByIdAndUpdate(id); 
-        res.redirect('/tasks')
+       const result =  await Tasks.findById(id)
+        res.render('edit',{title:'edit || page',task:result})
+    }catch(error){
+        console.log(error);
+    }
+}
+// update route
+const edit_page= async(req,res)=>{
+    const id = req.params.id;
+    const updatedData =  req.body
+    try{
+        await Tasks.findByIdAndUpdate(id,updatedData,{new:true})
+        res.status(301).redirect('/')
     }catch(error){
         console.log(error);
     }
@@ -41,6 +53,6 @@ const single_page =async(req,res)=>{
     }
 }
 
-module.exports ={create_task,delete_task,single_page,edit_task}
+module.exports ={create_task,delete_task,single_page,edit_task, edit_page}
     
     

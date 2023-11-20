@@ -82,12 +82,15 @@ app .get ('/',async(req,res)=>{
     }
     
 })
-app .get ('/about',(req,res)=>{
+app.get ('/about',(req,res)=>{
     res.render('about',{title:'About || Page'})
 })
 app .get ('/tasks',(req,res)=>{
     
     res.render('tasks',{title:'Task || Page'})
+})
+app.get('/edit',async(req,res)=>{
+    res.render('edit',{title:'edit || page'})
 })
 
 app.use((req,res)=>{
